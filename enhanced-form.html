@@ -1,0 +1,434 @@
+<!--Walusaka Samuel-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Enhanced HTML5 Content & Forms</title>
+  <meta name="description" content="Assignment: Enhancing HTML5 Content & Mastering Forms" />
+  <style>
+    :root {
+      --bg: #0f172a; /* slate-900 */
+      --card: #111827; /* gray-900 */
+      --muted: #94a3b8; /* slate-400 */
+      --text: #e5e7eb; /* gray-200 */
+      --accent: #38bdf8; /* sky-400 */
+      --ring: #7dd3fc; /* sky-300 */
+      --ok: #4ade80; /* green-400 */
+      --warn: #fbbf24; /* amber-400 */
+      --err: #fb7185; /* rose-400 */
+    }
+    html, body { height: 100%; }
+    body {
+      margin: 0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+      color: var(--text);
+      background: linear-gradient(180deg, #0b1220, var(--bg));
+      line-height: 1.5;
+    }
+    .container { max-width: 1100px; margin: 0 auto; padding: 2rem 1rem 4rem; }
+    header {
+      position: sticky; top: 0; z-index: 10; backdrop-filter: blur(8px);
+      background: rgba(15, 23, 42, 0.7); border-bottom: 1px solid rgba(148, 163, 184, .15);
+    }
+    header .container { display: grid; grid-template-columns: 1fr auto; align-items: center; padding: 1rem; }
+    h1 { font-size: clamp(1.6rem, 1.4rem + 1vw, 2.2rem); margin: .25rem 0; }
+    h2 { font-size: clamp(1.3rem, 1.1rem + 0.7vw, 1.6rem); margin: 2.2rem 0 1rem; }
+    h3 { font-size: 1.1rem; margin: 1.6rem 0 .75rem; }
+    p { color: var(--text); }
+    a { color: var(--accent); text-decoration: none; }
+    a:focus, button:focus, input:focus, select:focus, textarea:focus { outline: none; box-shadow: 0 0 0 3px var(--ring); border-radius: .75rem; }
+
+    .card { background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+            border: 1px solid rgba(148, 163, 184, .15); border-radius: 1rem; padding: 1.25rem; }
+    .split { display: grid; grid-template-columns: 1fr; gap: 1rem; }
+    @media (min-width: 900px) { .split { grid-template-columns: 1.1fr .9fr; } }
+
+    /* Table */
+    table { width: 100%; border-collapse: collapse; border-radius: .75rem; overflow: hidden; }
+    caption { text-align: left; padding: .75rem 0; color: var(--muted); }
+    thead th { background: #0b1220; color: var(--muted); font-weight: 600; }
+    th, td { padding: .75rem; border-bottom: 1px solid rgba(148,163,184,.12); text-align: left; }
+    tbody tr:hover { background: rgba(148,163,184,.05); }
+    tfoot td { color: var(--muted); font-size: .95rem; }
+
+    /* Media */
+    figure { margin: 0; }
+    figcaption { color: var(--muted); font-size: .9rem; margin-top: .5rem; }
+    .media-grid { display: grid; gap: 1rem; grid-template-columns: 1fr; }
+    @media (min-width: 700px) { .media-grid { grid-template-columns: repeat(3, 1fr); } }
+    .media { border: 1px solid rgba(148,163,184,.15); border-radius: .75rem; padding: .75rem; background: rgba(2,6,23,.35); }
+
+    /* Form */
+    form { display: grid; gap: 1.25rem; }
+    fieldset { border: 1px solid rgba(148,163,184,.2); border-radius: 1rem; padding: 1rem; }
+    legend { padding: 0 .5rem; color: var(--muted); font-weight: 600; }
+    .grid-2 { display: grid; grid-template-columns: 1fr; gap: 1rem; }
+    .grid-3 { display: grid; grid-template-columns: 1fr; gap: 1rem; }
+    @media (min-width: 750px) {
+      .grid-2 { grid-template-columns: repeat(2, 1fr); }
+      .grid-3 { grid-template-columns: repeat(3, 1fr); }
+    }
+    .control { display: grid; gap: .35rem; }
+    label { font-weight: 600; }
+    input, select, textarea { background: rgba(2,6,23,.5); color: var(--text);
+      border: 1px solid rgba(148,163,184,.25); border-radius: .75rem; padding: .65rem .75rem;
+      font: inherit; }
+    input[readonly] { background: rgba(148,163,184,.08); color: var(--muted); }
+    .hint { color: var(--muted); font-size: .9rem; }
+    .inline { display: flex; align-items: center; gap: .6rem; flex-wrap: wrap; }
+    .chips { display: flex; gap: .5rem; flex-wrap: wrap; }
+    .chip { padding: .2rem .5rem; border-radius: 999px; background: rgba(148,163,184,.12); font-size: .85rem; color: var(--muted); }
+    .actions { display: flex; gap: .75rem; flex-wrap: wrap; }
+    button { border: 1px solid rgba(148,163,184,.25); background: linear-gradient(180deg, rgba(56,189,248,.15), rgba(56,189,248,.05)); color: var(--text);
+      padding: .7rem 1rem; border-radius: .9rem; cursor: pointer; font-weight: 700; }
+    button[type="reset"] { background: linear-gradient(180deg, rgba(148,163,184,.15), rgba(148,163,184,.05)); }
+    .req::after { content: " *"; color: var(--err); }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container" role="banner">
+      <div>
+        <h1>Enhanced HTML5 Content & Mastering Forms</h1>
+        <p class="hint">A single-page assignment showcasing lists, tables, media, and an accessible HTML5 form.</p>
+      </div>
+      <nav aria-label="Page sections">
+        <a href="#content">Content</a> · <a href="#form">Form</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="content" class="container" role="main">
+    <section class="split" aria-labelledby="overview-heading">
+      <article class="card">
+        <h2 id="overview-heading">Overview & Lists</h2>
+        <p>This page demonstrates semantic structure, organized data, embedded media, and a complete, validated HTML5 form.</p>
+
+        <h3>Key Objectives (Ordered List)</h3>
+        <ol>
+          <li>Use semantic HTML for structure and accessibility.</li>
+          <li>Organize information with lists and tables.</li>
+          <li>Embed images, audio, and video elements.</li>
+          <li>Build an accessible form with native validation.</li>
+        </ol>
+
+        <h3>Deliverables (Unordered List)</h3>
+        <ul>
+          <li>Well-structured content with lists, tables, and media.</li>
+          <li>Single file: <code>enhanced-form.html</code>.</li>
+          <li>A complete HTML5 form using varied inputs and attributes.</li>
+          <li>Native validation: <code>required</code>, <code>type</code>, <code>pattern</code>, <code>minlength</code>, etc.</li>
+        </ul>
+
+        <div class="chips" aria-label="Form features">
+          <span class="chip">autocomplete</span>
+          <span class="chip">placeholder</span>
+          <span class="chip">readonly</span>
+          <span class="chip">required</span>
+          <span class="chip">pattern</span>
+          <span class="chip">min / max</span>
+        </div>
+      </article>
+
+      <aside class="card" aria-labelledby="table-heading">
+        <h2 id="table-heading">Sample Data Table</h2>
+        <p class="hint">Includes caption, scoped headers, and summary row.</p>
+        <table aria-describedby="table-caption">
+          <caption id="table-caption">Monthly Newsletter Sign-ups (Sample)</caption>
+          <thead>
+            <tr>
+              <th scope="col">Month</th>
+              <th scope="col">Web</th>
+              <th scope="col">Mobile</th>
+              <th scope="col">Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">January</th>
+              <td>120</td>
+              <td>80</td>
+              <td>200</td>
+            </tr>
+            <tr>
+              <th scope="row">February</th>
+              <td>140</td>
+              <td>95</td>
+              <td>235</td>
+            </tr>
+            <tr>
+              <th scope="row">March</th>
+              <td>150</td>
+              <td>110</td>
+              <td>260</td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr>
+              <td colspan="3">Quarter Total</td>
+              <td><strong>695</strong></td>
+            </tr>
+          </tfoot>
+        </table>
+      </aside>
+    </section>
+
+    <section class="card" aria-labelledby="media-heading">
+      <h2 id="media-heading">Embedded Media</h2>
+      <div class="media-grid">
+        <figure class="media" aria-labelledby="img-cap">
+          <!-- Inline SVG image (no external assets) -->
+          <svg viewBox="0 0 400 240" width="100%" height="auto" role="img" aria-labelledby="img-title img-desc">
+            <title id="img-title">Abstract Landscape</title>
+            <desc id="img-desc">An abstract gradient landscape used as a placeholder image.</desc>
+            <defs>
+              <linearGradient id="g" x1="0" x2="1" y1="0" y2="1">
+                <stop offset="0%" stop-color="#38bdf8"/>
+                <stop offset="100%" stop-color="#8b5cf6"/>
+              </linearGradient>
+            </defs>
+            <rect x="0" y="0" width="400" height="240" fill="url(#g)" rx="24"/>
+            <circle cx="320" cy="60" r="26" fill="#fef3c7"/>
+            <path d="M0 180 C60 150 120 210 180 180 S300 160 400 190 L400 240 L0 240 Z" fill="#0f172a" opacity="0.5"/>
+          </svg>
+          <figcaption id="img-cap">Image (SVG): Inline, scalable, and accessible.</figcaption>
+        </figure>
+
+        <figure class="media" aria-labelledby="audio-cap">
+          <audio controls>
+            <!-- Small silent audio data URI to ensure the control renders without external files -->
+            <source src="data:audio/mp3;base64,//uQZAAAAAAAAAAAAAAAAAAAAAAAWGluZwAAAA8AAAACAAACcQAA" type="audio/mpeg">
+            Your browser does not support the audio element.
+          </audio>
+          <figcaption id="audio-cap">Audio: Embedded with native controls.</figcaption>
+        </figure>
+
+        <figure class="media" aria-labelledby="video-cap">
+          <video controls width="100%" poster="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='640' height='360'%3E%3Crect width='100%25' height='100%25' fill='%230b1220'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%2394a3b8' font-size='24'%3EVideo Placeholder%3C/text%3E%3C/svg%3E">
+            <!-- Tiny MP4-less source to show control; real media can be added later. -->
+            <source src="" type="video/mp4">
+            Your browser does not support the video element.
+          </video>
+          <figcaption id="video-cap">Video: With poster placeholder and controls.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section id="form" class="card" aria-labelledby="form-heading">
+      <h2 id="form-heading">Complete HTML5 Form</h2>
+      <p class="hint">All inputs use native HTML5 attributes for usability and validation—no JavaScript needed for validation.</p>
+
+      <form action="#" method="post">
+        <!-- Account -->
+        <fieldset>
+          <legend>Account</legend>
+          <div class="grid-3">
+            <div class="control">
+              <label for="userId">User ID</label>
+              <input id="userId" name="userId" type="text" value="USR-2025-001" readonly aria-describedby="userIdHint" />
+              <div id="userIdHint" class="hint">Read-only system identifier.</div>
+            </div>
+            <div class="control">
+              <label class="req" for="email">Email</label>
+              <input id="email" name="email" type="email" placeholder="you@example.com" required autocomplete="email" />
+            </div>
+            <div class="control">
+              <label class="req" for="password">Password</label>
+              <input id="password" name="password" type="password" placeholder="Min 8 chars, 1 number" required minlength="8" pattern="(?=.*\d).{8,}" aria-describedby="pwHint" autocomplete="new-password" />
+              <div id="pwHint" class="hint">Minimum 8 characters and at least one digit.</div>
+            </div>
+          </div>
+        </fieldset>
+
+        <!-- Personal Details -->
+        <fieldset>
+          <legend>Personal Details</legend>
+          <div class="grid-3">
+            <div class="control">
+              <label class="req" for="fullName">Full name</label>
+              <input id="fullName" name="fullName" type="text" placeholder="Jane Doe" required autocomplete="name" />
+            </div>
+            <div class="control">
+              <label class="req" for="phone">Phone</label>
+              <input id="phone" name="phone" type="tel" placeholder="0712 345 678" required autocomplete="tel" pattern="^\+?\d[\d\s-]{8,14}$" aria-describedby="phoneHint" />
+              <div id="phoneHint" class="hint">Digits only, may include +, spaces, or dashes.</div>
+            </div>
+            <div class="control">
+              <label for="website">Website</label>
+              <input id="website" name="website" type="url" placeholder="https://example.com" autocomplete="url" />
+            </div>
+          </div>
+
+          <div class="grid-3">
+            <div class="control">
+              <label class="req" for="dob">Date of birth</label>
+              <input id="dob" name="dob" type="date" required />
+            </div>
+            <div class="control">
+              <label for="age">Age</label>
+              <input id="age" name="age" type="number" min="16" max="120" step="1" placeholder="18" />
+            </div>
+            <div class="control">
+              <label for="color">Favorite color</label>
+              <input id="color" name="color" type="color" value="#38bdf8" />
+            </div>
+          </div>
+
+          <div class="grid-2">
+            <div class="control">
+              <label for="country" class="req">Country</label>
+              <select id="country" name="country" required autocomplete="country-name">
+                <option value="" selected disabled>Select your country…</option>
+                <optgroup label="Africa">
+                  <option>Kenya</option>
+                  <option>Uganda</option>
+                  <option>Tanzania</option>
+                </optgroup>
+                <optgroup label="Europe">
+                  <option>United Kingdom</option>
+                  <option>Germany</option>
+                </optgroup>
+                <optgroup label="Americas">
+                  <option>United States</option>
+                  <option>Canada</option>
+                </optgroup>
+              </select>
+            </div>
+            <div class="control">
+              <label for="city">City</label>
+              <input id="city" name="city" type="text" list="cities" placeholder="Start typing…" autocomplete="address-level2" />
+              <datalist id="cities">
+                <option value="Nairobi"></option>
+                <option value="Mombasa"></option>
+                <option value="Kisumu"></option>
+                <option value="Eldoret"></option>
+              </datalist>
+            </div>
+          </div>
+        </fieldset>
+
+        <!-- Preferences -->
+        <fieldset>
+          <legend>Preferences</legend>
+          <div class="grid-2">
+            <div class="control">
+              <label class="req">Newsletter</label>
+              <div class="inline" role="group" aria-label="Newsletter frequency">
+                <label><input type="radio" name="newsletter" value="daily" required> Daily</label>
+                <label><input type="radio" name="newsletter" value="weekly"> Weekly</label>
+                <label><input type="radio" name="newsletter" value="monthly"> Monthly</label>
+              </div>
+            </div>
+            <div class="control">
+              <label>Topics</label>
+              <div class="inline" role="group" aria-label="Topics of interest">
+                <label><input type="checkbox" name="topics" value="html"> HTML</label>
+                <label><input type="checkbox" name="topics" value="css"> CSS</label>
+                <label><input type="checkbox" name="topics" value="forms"> Forms</label>
+                <label><input type="checkbox" name="topics" value="accessibility"> Accessibility</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="grid-3">
+            <div class="control">
+              <label for="avatar">Profile photo</label>
+              <input id="avatar" name="avatar" type="file" accept="image/*" />
+              <div class="hint">Accepted: images only.</div>
+            </div>
+            <div class="control">
+              <label for="volume">Notification volume</label>
+              <input id="volume" name="volume" type="range" min="0" max="100" value="40" />
+            </div>
+            <div class="control">
+              <label for="theme">Theme</label>
+              <select id="theme" name="theme">
+                <option value="system">System</option>
+                <option value="light">Light</option>
+                <option value="dark" selected>Dark</option>
+              </select>
+            </div>
+          </div>
+        </fieldset>
+
+        <!-- Payment (example of more inputs) -->
+        <fieldset>
+            <legend>Payment</legend>
+            <div class="grid-3">
+              <div class="control">
+                <label class="req" for="cardName">Cardholder name</label>
+                <input id="cardName" name="cardName" type="text" required autocomplete="cc-name" placeholder="As shown on card" />
+              </div>
+              <div class="control">
+                <label class="req" for="cardNumber">Card number</label>
+                <input id="cardNumber" name="cardNumber" inputmode="numeric" pattern="^[0-9]{13,19}$" minlength="13" maxlength="19" required autocomplete="cc-number" placeholder="1234 5678 9012 3456" aria-describedby="cardHint" />
+                <div id="cardHint" class="hint">13–19 digits, numbers only.</div>
+              </div>
+              <div class="control">
+                <label class="req" for="expiry">Expiry</label>
+                <input id="expiry" name="expiry" type="month" required autocomplete="cc-exp" />
+              </div>
+            </div>
+            <div class="grid-3">
+              <div class="control">
+                <label class="req" for="cvv">CVV</label>
+                <input id="cvv" name="cvv" type="password" inputmode="numeric" pattern="^[0-9]{3,4}$" minlength="3" maxlength="4" required autocomplete="cc-csc" placeholder="3 or 4 digits" />
+              </div>
+              <div class="control">
+                <label for="billingEmail">Billing email</label>
+                <input id="billingEmail" name="billingEmail" type="email" autocomplete="email" placeholder="billing@example.com" />
+              </div>
+              <div class="control">
+                <label for="billingNotes">Notes</label>
+                <textarea id="billingNotes" name="billingNotes" rows="1" placeholder="Optional…"></textarea>
+              </div>
+            </div>
+        </fieldset>
+
+        <!-- Additional Timing Inputs -->
+        <fieldset>
+          <legend>Scheduling</legend>
+          <div class="grid-3">
+            <div class="control">
+              <label for="meeting">Meeting date & time</label>
+              <input id="meeting" name="meeting" type="datetime-local" />
+            </div>
+            <div class="control">
+              <label for="reminderTime">Reminder time</label>
+              <input id="reminderTime" name="reminderTime" type="time" />
+            </div>
+            <div class="control">
+              <label for="timezone">Timezone</label>
+              <select id="timezone" name="timezone" autocomplete="off">
+                <option value="Africa/Nairobi" selected>Africa/Nairobi (UTC+03:00)</option>
+                <option value="UTC">UTC</option>
+                <option value="Africa/Kampala">Africa/Kampala</option>
+                <option value="Africa/Dar_es_Salaam">Africa/Dar es Salaam</option>
+              </select>
+            </div>
+          </div>
+        </fieldset>
+
+        <!-- Consent & Submit -->
+        <fieldset>
+          <legend>Consent</legend>
+          <div class="control">
+            <label class="req"><input type="checkbox" name="terms" required> I agree to the Terms and Privacy Policy.</label>
+            <div class="hint">Required to submit the form.</div>
+          </div>
+        </fieldset>
+
+        <div class="actions">
+          <button type="submit">Submit</button>
+          <button type="reset">Reset</button>
+        </div>
+      </form>
+    </section>
+  </main>
+
+  <footer class="container" role="contentinfo" style="opacity:.8;">
+    <p>© 2025 Enhanced HTML5 Demo. Built with semantic tags and accessible patterns.</p>
+  </footer>
+</body>
+</html>
